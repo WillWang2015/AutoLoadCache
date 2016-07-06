@@ -2,6 +2,7 @@ package com.jarvis.cache.aop.aspectj;
 
 import java.lang.reflect.Method;
 
+import com.jarvis.cache.ConfigHolder;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
@@ -46,7 +47,11 @@ public class AspectjAopInterceptor {
     }
 
     public Object proceed(ProceedingJoinPoint aopProxyChain, Cache cache) throws Throwable {
-        return cacheManager.proceed(new AspectjCacheAopProxyChain(aopProxyChain), cache);
+        try {
+            return cacheManager.proceed(new AspectjCacheAopProxyChain(aopProxyChain), cache);
+        } finally {
+            ConfigHolder.clearLocalConfig();
+        }
     }
 
     public void deleteCache(JoinPoint aopProxyChain, CacheDelete cacheDelete, Object retVal) {

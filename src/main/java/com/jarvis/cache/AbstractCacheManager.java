@@ -118,6 +118,10 @@ public abstract class AbstractCacheManager implements ICacheManager {
             }
             return result;
         }
+        CacheConfig config = ConfigHolder.getLocalConfig();
+        if (config != null && !config.isCacheAble()) {
+            return getData(pjp);
+        }
         if(!scriptParser.isCacheable(cache, arguments)) {// 如果不进行缓存，则直接返回数据
             return getData(pjp);
         }
