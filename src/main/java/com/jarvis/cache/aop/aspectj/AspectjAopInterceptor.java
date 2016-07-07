@@ -47,11 +47,7 @@ public class AspectjAopInterceptor {
     }
 
     public Object proceed(ProceedingJoinPoint aopProxyChain, Cache cache) throws Throwable {
-        try {
-            return cacheManager.proceed(new AspectjCacheAopProxyChain(aopProxyChain), cache);
-        } finally {
-            ConfigHolder.clearLocalConfig();
-        }
+        return cacheManager.proceed(new AspectjCacheAopProxyChain(aopProxyChain), cache);
     }
 
     public void deleteCache(JoinPoint aopProxyChain, CacheDelete cacheDelete, Object retVal) {
